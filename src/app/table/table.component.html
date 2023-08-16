@@ -1,0 +1,56 @@
+<div
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  (cdkDropListDropped)="drop($event)"
+>
+  <nz-table
+    nzShowPagination
+    nzShowSizeChanger
+    [nzPageSize]="5"
+    [nzPageSizeOptions]="[5, 10, 15, 20]"
+    #Table
+    [nzData]="dataRows"
+    [nzScroll]="{ x: 'auto' }"
+  >
+    <thead>
+      <tr>
+        <th
+          *ngFor="let column of dataColumns"
+          cdkDrag
+          [nzSortFn]="column.compare"
+        >
+          {{ column.title }}
+        </th>
+        <th nzRight>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        [ngClass]="row.leadMarkedForReview ? 'marked' : 'none'"
+        *ngFor="let row of Table.data; let i = index"
+      >
+        <td *ngFor="let column of dataColumns">
+          {{ row[column.field] }}
+        </td>
+
+        <td nzRight class="action-buttons">
+          <button nz-button nzType="primary" (click)="onEditRow(row)">
+            Edit
+          </button>
+
+          <button
+            nz-button
+            nzType="default"
+            nzDanger
+            (click)="onDelete(i, 'error')"
+          >
+            Delete
+          </button>
+          <button nz-button nzType="default" (click)="onMarkForReview(row)">
+            Mark For Review
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

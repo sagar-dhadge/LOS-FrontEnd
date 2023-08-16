@@ -1,0 +1,28 @@
+.form {
+  width: 100%;
+}
+
+button {
+  margin: 1rem 0.5rem;
+}
+
+nz-form-label {
+  font-weight: bold;
+  text-align: left;
+}
+
+nz-form-control {
+  display: flex;
+  align-items: center;
+}
+
+nz-form-control input {
+  width: 350px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+nz-form-control input:focus {
+  outline: none;
+  border-color: #1890ff;
+}

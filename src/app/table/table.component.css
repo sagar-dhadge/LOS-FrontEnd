@@ -1,0 +1,12 @@
+button {
+  margin: 5px;
+}
+
+.action-buttons {
+  white-space: nowrap;
+}
+
+.marked {
+  background-color: #fdcedf;
+  pointer-events: none;
+}

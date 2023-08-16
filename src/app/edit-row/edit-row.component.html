@@ -1,0 +1,30 @@
+<div class="form">
+  <form [formGroup]="editForm">
+    <div *ngFor="let column of dataColumns; let i = index">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" [nzFor]="column.field">{{
+          column.field
+        }}</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+          <input
+            nz-input
+            type="text"
+            [id]="column.field"
+            [formControlName]="column.field"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <button
+      nz-button
+      nzType="primary"
+      [disabled]="!editForm.valid"
+      (click)="handleSave('success')"
+    >
+      Save
+    </button>
+    <button nz-button nzType="primary" nzDanger (click)="handleCancel()">
+      Cancel
+    </button>
+  </form>
+</div>

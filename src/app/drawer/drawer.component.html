@@ -1,0 +1,56 @@
+<div>
+  <nz-layout class="layout">
+    <nz-sider
+      id="leftCol"
+      nzCollapsible
+      [(nzCollapsed)]="isCollapsed"
+      [nzTrigger]="null"
+    >
+      <span
+        class="trigger"
+        nz-icon
+        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"
+      ></span>
+
+      <ul nz-menu nzTheme="dark" nzMode="inline">
+        <li nz-menu-item (click)="showData(1)">
+          <span nz-icon nzType="table" nzTheme="outline"></span>
+          <span>{{ first }}</span>
+        </li>
+        <li nz-menu-item (click)="showData(2)">
+          <span nz-icon nzType="table" nzTheme="outline"></span>
+          <span>{{ second }}</span>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-layout>
+      <nz-content cdkScrollable>
+        <nz-card class="title">
+          <h2>Los Base Assignment</h2>
+        </nz-card>
+
+        <div class="inner-content">
+          <div *ngIf="!isSelected">
+            <h2>Please select the table!</h2>
+          </div>
+          <app-table
+            *ngIf="clickedItem == 1"
+            [selectedTable]="clickedItem"
+            [dataRows]="dataRows"
+            [dataColumns]="dataColumns"
+          >
+          </app-table>
+
+          <app-table
+            *ngIf="clickedItem == 2"
+            [selectedTable]="clickedItem"
+            [dataRows]="dataRows2"
+            [dataColumns]="dataColumns2"
+          >
+          </app-table>
+        </div>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</div>
