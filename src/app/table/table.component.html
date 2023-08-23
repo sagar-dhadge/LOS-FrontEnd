@@ -38,12 +38,7 @@
             Edit
           </button>
 
-          <button
-            nz-button
-            nzType="default"
-            nzDanger
-            (click)="onDelete(i, 'error')"
-          >
+          <button nz-button nzType="default" nzDanger (click)="onDelete(i)">
             Delete
           </button>
           <button nz-button nzType="default" (click)="onMarkForReview(row)">

@@ -22,6 +22,10 @@ nz-form-control input {
   border: 1px solid #ccc;
 }
 
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
 nz-form-control input:focus {
   outline: none;
   border-color: #1890ff;

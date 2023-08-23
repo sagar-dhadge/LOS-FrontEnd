@@ -53,7 +53,7 @@ export class TableComponent implements OnInit {
     });
   }
 
-  onDelete(index: number, type: string) {
+  onDelete(index: number) {
     console.log(index);
 
     if (this.selectedTable === 1) {
@@ -67,19 +67,13 @@ export class TableComponent implements OnInit {
 
       this.cdr.detectChanges();
     }
-    this.message.create(type, `Row deleted successfully`);
+    this.message.create('error', `Row deleted successfully`);
   }
 
   onMarkForReview(row: any) {
     row.leadMarkedForReview = true;
+    this.message.create('warning', `Row marked successfully`);
 
     // console.log(row);
-  }
-
-  confirm() {
-    this.message.info('click confirm');
-  }
-  cancel() {
-    this.message.info('click cancel');
   }
 }
