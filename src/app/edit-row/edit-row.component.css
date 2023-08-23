@@ -2,31 +2,41 @@
   width: 100%;
 }
 
-button {
-  margin: 1rem 0.5rem;
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-row-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 nz-form-label {
-  font-weight: bold;
   text-align: left;
+  font-weight: bold;
 }
 
-nz-form-control {
-  display: flex;
-  align-items: center;
-}
-
-nz-form-control input {
-  width: 350px;
+input {
+  width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-input.ng-invalid.ng-touched {
-  border: 1px solid red;
+button {
+  margin-left: 1rem;
+  cursor: pointer;
 }
-
 nz-form-control input:focus {
   outline: none;
   border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+input.ng-invalid.ng-touched {
+  border-color: red;
 }

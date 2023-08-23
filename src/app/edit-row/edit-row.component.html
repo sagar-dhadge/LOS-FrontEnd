@@ -1,17 +1,16 @@
 <div class="form">
   <form [formGroup]="editForm">
-    <div *ngFor="let column of dataColumns; let i = index">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="6" [nzFor]="column.field">{{
-          column.field
-        }}</nz-form-label>
-        <nz-form-control [nzSpan]="14">
+    <div class="form-row" *ngFor="let column of dataColumns; let i = index">
+      <nz-form-item class="form-row-item">
+        <nz-form-label [nzFor]="column.field">{{ column.field }}</nz-form-label>
+        <nz-form-control>
           <input
             nz-input
             type="text"
             [id]="column.field"
             [formControlName]="column.field"
           />
+          <!-- <p *ngIf="!editForm.valid">Field cannot be empty!</p> -->
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -19,7 +18,7 @@
       nz-button
       nzType="primary"
       [disabled]="!editForm.valid"
-      (click)="handleSave('success')"
+      (click)="handleSave()"
     >
       Save
     </button>

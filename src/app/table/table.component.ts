@@ -14,7 +14,8 @@ export class TableComponent implements OnInit {
   @Input() dataRows: Lead[] = [];
   @Input() dataColumns: any = {};
   @Input() selectedTable: number;
-  // isSaved = false;
+
+  data: any;
 
   constructor(
     private modalService: NzModalService,
@@ -22,7 +23,6 @@ export class TableComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private message: NzMessageService
   ) {}
-  rowData: any;
 
   ngOnInit(): void {}
 
@@ -33,35 +33,44 @@ export class TableComponent implements OnInit {
   onEditRow(row: any) {
     const modal = this.modalService.create({
       nzContent: EditRowComponent,
-      nzStyle: { width: '45%' },
+      nzStyle: { width: '50%' },
       nzData: {
-        InputData: { row: row, selectedTable: this.selectedTable },
+        InputData: {
+          row: row,
+          rowData: this.dataRows,
+          columnData: this.dataColumns,
+          selectedTable: this.selectedTable,
+        },
       },
+
       nzFooter: null,
+      nzClosable: false,
     });
 
-    modal.afterClose.subscribe((result: any) => {
+    modal.afterClose.subscribe((result) => {
       if (this.selectedTable === 1) {
-        const newData = this.dataService.getRowdata1();
-        this.dataRows = newData;
-      } else {
-        const newData = this.dataService.getRowdata2();
-        this.dataRows = newData;
+        this.dataService.getData().subscribe((res) => {
+          this.data = res;
+          this.dataRows = this.data.data.rows;
+        });
+        this.cdr.detectChanges();
+      } else if (this.selectedTable === 2) {
+        this.dataRows = this.dataService.getRowdata2();
       }
-      // this.isSaved = true;
-      // console.log(this.dataRows);
     });
   }
 
-  onDelete(index: number) {
-    console.log(index);
-
+  onDelete(row: any) {
     if (this.selectedTable === 1) {
-      this.dataService.deleteRow1(index);
-      this.dataRows = this.dataService.getRowdata1();
+      const id = row.leadId;
+      console.log(id);
 
-      // this.cdr.detectChanges();
+      this.dataService.deleteData(id).subscribe(() => {
+        this.dataRows = this.dataRows.filter((item) => item.leadId !== id);
+        this.cdr.detectChanges();
+      });
     } else {
+      const index = this.dataRows.indexOf(row);
       this.dataService.deleteRow2(index);
       this.dataRows = this.dataService.getRowdata2();
 
@@ -71,9 +80,13 @@ export class TableComponent implements OnInit {
   }
 
   onMarkForReview(row: any) {
-    row.leadMarkedForReview = true;
-    this.message.create('warning', `Row marked successfully`);
-
-    // console.log(row);
+    if (this.selectedTable === 1) {
+      row.leadMarkedForReview = true;
+      this.dataService.markForReview(row.leadId, row);
+      this.message.create('warning', `Row marked successfully`);
+    } else {
+      row.leadMarkedForReview = true;
+      this.message.create('warning', `Row marked successfully`);
+    }
   }
 }
