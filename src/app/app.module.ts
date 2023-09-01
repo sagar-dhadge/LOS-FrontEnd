@@ -4,8 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { EditRowComponent } from './edit-row/edit-row.component';
 import { AppComponent } from './app.component';
@@ -26,6 +29,9 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { leadReducer } from './store/lead.reducer';
+import { reducers } from './store/appstate';
+import { LeadEffect } from './store/lead.effects';
 
 @NgModule({
   declarations: [
@@ -55,6 +61,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     ScrollingModule,
     NzAlertModule,
     NzMessageModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([LeadEffect]),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

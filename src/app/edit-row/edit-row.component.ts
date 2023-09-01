@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ApiLead, DataService, Lead } from '../data.service';
+import { DataService } from '../data.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef, NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
-// import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as LeadActions from '../store/lead.action';
 
 @Component({
   selector: 'app-edit-row',
@@ -21,10 +22,9 @@ export class EditRowComponent implements OnInit {
     private dataService: DataService,
     @Inject(NZ_MODAL_DATA) public data: any,
     private modalRef: NzModalRef,
-    private message: NzMessageService
-  ) {
-    // console.log(data);
-  }
+    private message: NzMessageService,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
     this.rowData = this.data.InputData.rowData;
@@ -100,12 +100,17 @@ export class EditRowComponent implements OnInit {
     this.rowIndex = this.rowData.indexOf(this.data.InputData.row);
 
     if (this.data.InputData.selectedTable === 1) {
-      this.dataService.updateData1(
-        this.editForm.value.leadId,
-        this.editForm.value
-      );
+      this.dataService
+        .updateData1(this.editForm.value.leadId, this.editForm.value)
+        .subscribe();
     } else {
-      this.dataService.updateData2(this.rowIndex, this.editForm.value);
+      // this.dataService.updateData2(this.rowIndex, this.editForm.value);
+      this.store.dispatch(
+        new LeadActions.UpdateData({
+          index: this.rowIndex,
+          updatedRow: this.editForm.value,
+        })
+      );
     }
 
     this.modalRef.close();

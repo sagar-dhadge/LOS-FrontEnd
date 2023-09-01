@@ -4,6 +4,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { EditRowComponent } from '../edit-row/edit-row.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Store } from '@ngrx/store';
+import { appState } from '../store/appstate';
+import * as LeadActions from '../store/lead.action';
 
 @Component({
   selector: 'app-table',
@@ -21,7 +24,8 @@ export class TableComponent implements OnInit {
     private modalService: NzModalService,
     private dataService: DataService,
     private cdr: ChangeDetectorRef,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private store: Store<appState>
   ) {}
 
   ngOnInit(): void {}
@@ -55,7 +59,9 @@ export class TableComponent implements OnInit {
         });
         this.cdr.detectChanges();
       } else if (this.selectedTable === 2) {
-        this.dataRows = this.dataService.getRowdata2();
+        this.store.select('lead').subscribe((resState) => {
+          this.dataRows = resState.dataRows;
+        });
       }
     });
   }
@@ -71,8 +77,7 @@ export class TableComponent implements OnInit {
       });
     } else {
       const index = this.dataRows.indexOf(row);
-      this.dataService.deleteRow2(index);
-      this.dataRows = this.dataService.getRowdata2();
+      this.store.dispatch(new LeadActions.DeleteRow(index));
 
       this.cdr.detectChanges();
     }
@@ -85,7 +90,11 @@ export class TableComponent implements OnInit {
       this.dataService.markForReview(row.leadId, row);
       this.message.create('warning', `Row marked successfully`);
     } else {
-      row.leadMarkedForReview = true;
+      const rowIndex = this.dataRows.indexOf(row);
+      const updatedRow = { ...row, leadMarkedForReview: true };
+      this.store.dispatch(
+        new LeadActions.MarkForReview({ index: rowIndex, row: updatedRow })
+      );
       this.message.create('warning', `Row marked successfully`);
     }
   }
