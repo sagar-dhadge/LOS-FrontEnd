@@ -68,7 +68,10 @@ export class EditRowComponent implements OnInit {
         leadUpdatedDate: new FormControl(row.leadUpdatedDate),
         leadStatus: new FormControl(row.leadStatus, Validators.required),
       });
-    } else if (this.data.InputData.selectedTable === 2) {
+    } else if (
+      this.data.InputData.selectedTable === 2 ||
+      this.data.InputData.selectedTable === 3
+    ) {
       this.editForm = new FormGroup({
         leadId: new FormControl(row.leadId, Validators.required),
         leadFullName: new FormControl(row.leadFullName, Validators.required),
@@ -103,7 +106,10 @@ export class EditRowComponent implements OnInit {
       this.dataService
         .updateData1(this.editForm.value.leadId, this.editForm.value)
         .subscribe();
-    } else {
+    } else if (
+      this.data.InputData.selectedTable === 2 ||
+      this.data.InputData.selectedTable === 3
+    ) {
       // this.dataService.updateData2(this.rowIndex, this.editForm.value);
       this.store.dispatch(
         new LeadActions.UpdateData({

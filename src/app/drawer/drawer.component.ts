@@ -13,6 +13,8 @@ export class DrawerComponent implements OnInit {
   clickedItem: number = -1;
   first = 'Lead Table 1';
   second = 'Lead Table 2';
+  third = 'Lead Table 3';
+
   isCollapsed = true;
   isSelected = false;
   data: any;

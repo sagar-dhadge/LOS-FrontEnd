@@ -23,6 +23,10 @@
           <span nz-icon nzType="table" nzTheme="outline"></span>
           <span>{{ second }}</span>
         </li>
+        <li nz-menu-item (click)="showData(3)">
+          <span nz-icon nzType="table" nzTheme="outline"></span>
+          <span>{{ third }}</span>
+        </li>
       </ul>
     </nz-sider>
     <nz-layout>
@@ -45,6 +49,13 @@
 
           <app-table
             *ngIf="clickedItem == 2"
+            [selectedTable]="clickedItem"
+            [dataRows]="dataRows2"
+            [dataColumns]="dataColumns2"
+          >
+          </app-table>
+          <app-table
+            *ngIf="clickedItem == 3"
             [selectedTable]="clickedItem"
             [dataRows]="dataRows2"
             [dataColumns]="dataColumns2"

@@ -62,6 +62,10 @@ export class TableComponent implements OnInit {
         this.store.select('lead').subscribe((resState) => {
           this.dataRows = resState.dataRows;
         });
+      } else if (this.selectedTable === 3) {
+        this.store.select('lead').subscribe((resState) => {
+          this.dataRows = resState.dataRows;
+        });
       }
     });
   }
@@ -75,7 +79,7 @@ export class TableComponent implements OnInit {
         this.dataRows = this.dataRows.filter((item) => item.leadId !== id);
         this.cdr.detectChanges();
       });
-    } else {
+    } else if (this.selectedTable === 2 || this.selectedTable === 3) {
       const index = this.dataRows.indexOf(row);
       this.store.dispatch(new LeadActions.DeleteRow(index));
 
@@ -89,7 +93,7 @@ export class TableComponent implements OnInit {
       row.leadMarkedForReview = true;
       this.dataService.markForReview(row.leadId, row);
       this.message.create('warning', `Row marked successfully`);
-    } else {
+    } else if (this.selectedTable === 2 || this.selectedTable === 3) {
       const rowIndex = this.dataRows.indexOf(row);
       const updatedRow = { ...row, leadMarkedForReview: true };
       this.store.dispatch(
